@@ -1,4 +1,4 @@
-package org.example.creditapplication.event;
+package org.example.creditprocessing.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,8 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class CreditApplicationEvent {
+public class CreditResult {
     private Long applicationId;
-    private Long amount;
-    private Long income;
+    private String status; // SUCCESS или FAILED
 }

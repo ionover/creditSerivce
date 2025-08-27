@@ -1,0 +1,83 @@
+### Кредитное приложение - HTTP запросы
+
+### 1. Создать заявку на кредит (одобрят - доход 300к, кредит 100к)
+POST http://localhost:8080/api/credit-applications
+Content-Type: application/json
+
+{
+  "amount": 100000,
+  "income": 300000
+}
+
+### 2. Создать заявку на кредит (отклонят - доход 100к, кредит 80к)
+POST http://localhost:8080/api/credit-applications
+Content-Type: application/json
+
+{
+  "amount": 80000,
+  "income": 100000
+}
+
+### 3. Создать заявку на кредит (одобрят - доход 500к, кредит 200к)
+POST http://localhost:8080/api/credit-applications
+Content-Type: application/json
+
+{
+  "amount": 200000,
+  "income": 500000
+}
+
+### 4. Получить статус заявки с ID = 1
+GET http://localhost:8080/api/credit-applications/1/status
+
+### 5. Получить статус заявки с ID = 2
+GET http://localhost:8080/api/credit-applications/2/status
+
+### 6. Получить статус заявки с ID = 3
+GET http://localhost:8080/api/credit-applications/3/status
+
+### 7. Получить статус несуществующей заявки (должна вернуть 404)
+GET http://localhost:8080/api/credit-applications/999/status
+
+###
+### Примеры ответов:
+###
+### Создание заявки:
+### HTTP/1.1 200 OK
+### {
+###   "id": 1
+### }
+###
+### Статус заявки (в процессе):
+### HTTP/1.1 200 OK
+### {
+###   "id": 1,
+###   "status": "PROCESSING"
+### }
+###
+### Статус заявки (одобрена):
+### HTTP/1.1 200 OK
+### {
+###   "id": 1,
+###   "status": "SUCCESS"
+### }
+###
+### Статус заявки (отклонена):
+### HTTP/1.1 200 OK
+### {
+###   "id": 2,
+###   "status": "FAILED"
+### }
+###
+### Заявка не найдена:
+### HTTP/1.1 404 Not Found
+###
+
+### Логика принятия решения:
+### SUCCESS: amount < income * 0.5
+### FAILED: amount >= income * 0.5
+###
+### Примеры:
+### - 100,000 < 300,000 * 0.5 (150,000) = SUCCESS ✅
+### - 80,000 >= 100,000 * 0.5 (50,000) = FAILED ❌
+### - 200,000 < 500,000 * 0.5 (250,000) = SUCCESS ✅

@@ -1,4 +1,4 @@
-package org.example.creditapplication.event;
+package org.example.creditprocessing.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
